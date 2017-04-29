@@ -96,3 +96,6 @@ ENV/
 
 # mkdocs documentation
 /site
+
+# actual config files
+.ini
