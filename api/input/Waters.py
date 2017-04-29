@@ -23,3 +23,4 @@ class Waters():
     name = ''
     flow = Flow
     type = Type
+    size = None # this is just a virtual property
