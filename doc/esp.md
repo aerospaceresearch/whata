@@ -11,3 +11,6 @@ For a quick start, esp easy firmware is used for the sensors, MQTT for connectiv
     * SDA to GPIO0 = D3
     * SCL to GPIO2 = D4
     * config device
+
+
+API via /input

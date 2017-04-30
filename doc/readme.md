@@ -6,3 +6,7 @@ Tools to create presentations and documentation
 * [Sozi](https://github.com/senshu/Sozi/releases/)
 * [Inkscape](https://inkscape.org/)
 
+
+# Collaboration
+
+* https://riot.im/app/#/room/#whata:matrix.org

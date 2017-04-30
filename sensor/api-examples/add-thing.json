@@ -1,0 +1,8 @@
+{
+  "name": "WHATA Monitoring System",
+  "description": "Sensor system to determine water quality",
+  "properties": {
+    "nodename": "whatanode31",
+    "espeasyid": 31
+  }
+}
