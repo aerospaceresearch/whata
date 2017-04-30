@@ -1,15 +1,22 @@
-from whatar.api.input import Waters, Rating
+# from whatar.api.input import Waters, Rating
 from flask import Flask, jsonify, request
-from pymongo import MongoClient
+# from pymongo import MongoClient
 import configparser
 import os
 import json
+from flask_pymongo import PyMongo
 
 config = configparser.ConfigParser()
 config.read(os.getcwd() + '/config.ini')
 
 app = Flask(__name__)
 app.secret_key = config['flask']['secret']
+
+app.config['MONGO_HOST'] = config['mongo']['host']
+app.config['MONGO_PORT'] = config['mongo']['port']
+app.config['MONGO_DBNAME'] = config['mongo']['db']
+mongo = PyMongo(app, config_prefix='MONGO')
+
 
 def get_db():
     """
@@ -20,52 +27,44 @@ def get_db():
 
     return g.mongo_db
 
-@app.route("/api/whatar/<id:x>/<id:y>", methods=["GET"])
-def api_map_coordinates(x, y):
-    """Entries on map at coordinates x, y"""
 
-    client, db, collection = connect_db()
-    point = collection.find_one({"coordinates": {"x": x, "y": y}})
-    return jsonify({"result": point})
+def coordinates_area(x, y, area):
+    """Get all coordinates in one zoom level"""
+    # TODO: Write function
+    return [{"x": x, "y": y}]
 
-@app.route("/input/<id:id>", methods=["POST", "GET"])
+
+@app.route("/api/water/<int:x>/<int:y>", methods=["POST", "GET"])
+def api_water(x, y):
+    """Get information for coordinate x, y and zoom level area"""
+    try:
+        area = request.form["area"]  # zoom level
+    except:
+        area = 100
+
+    coordinates = coordinates_area(x, y, area)
+    results = []
+
+    for coordinate in coordinates:
+        values = mongo.db.whata.find({"coordinates": {"x": coordinate["x"], "y": coordinate["y"]}})
+        results.append(values)
+
+    return jsonify(results)
+
+
+@app.route("/input/<int:id>", methods=["POST"])
 def api_input(id):
-    """Information about a water"""
+    """Provider sends information to this endpoint"""
     if request.method == "POST":
         try:
-            data = json.parse(request.body)
-            g.mongo_db.input.insert_one(data).inserted_id
+            data = json.loads(request.body)
+            status = mongo.db.whata.insert_one(data).inserted_id
             return jsonify({"Status": "OK"})
         except:
             return jsonify({"Error": "ID not reachable"})
-    elif request.method == "GET":
-        point = g.mongo_db.input.find_one({"id": id})
-        return jsonify({"result": point})
     else:
         return jsonify({"Error": "No method"})
 
-
-@app.route("/api/quality/<int:id>", methods=["GET"])
-def api_one_quality(id):
-    """Return one quality"""
-    if request.method == "GET":
-        point = g.mongo_db.quality.find_one({"id": id})
-        # TODO: Calculate value
-        quality = "good"
-        point[0]["quality"] = quality
-        return jsonify({"result": point})
-    else:
-        return jsonify({"Error": "Wrong method"})
-
-
-@app.route("/api/quality", methods=["GET"])
-def api_several_qualities():
-    """Return all qualities"""
-    if request.method == "GET":
-        point = g.mongo_db.quality.find()
-        return jsonify({"result": point})
-    else:
-        return jsonify({"Error": "Wrong method"})
 
 if __name__ == "__main__":
     app.run(debug=True)
