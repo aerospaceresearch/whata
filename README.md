@@ -1,7 +1,7 @@
 whata
 ---------------------------------
 ### save the planet - classify water
-![Whata Logo](https://raw.githubusercontent.com/aerospaceresearch/whata/master/doc/logo_whata.png "Whata Logo")
+![Whata Logo](https://raw.githubusercontent.com/aerospaceresearch/whata/master/doc/logo_whata.small.png "Whata Logo")
 
 ## Welcome
 Thanks for checking out the code we are submitting for [Nasa SpaceApps Challenge 2017](https://2017.spaceappschallenge.org/)! We're submitting this project to the [Where's the Water?](https://2017.spaceappschallenge.org/challenges/planetary-blues/wheres-water/details) challenge.
