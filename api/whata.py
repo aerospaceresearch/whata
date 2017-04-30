@@ -18,16 +18,6 @@ app.config['MONGO_DBNAME'] = config['mongo']['db']
 mongo = PyMongo(app, config_prefix='MONGO')
 
 
-def get_db():
-    """
-    Opens the mongodb connection and holds it
-    """
-    if not hasattr(g, 'mongo_db'):
-        g.mongo_db = MongoClient(config['mongo']['host'], config['mongo']['port'])
-
-    return g.mongo_db
-
-
 def coordinates_area(x, y, area):
     """Get all coordinates in one zoom level"""
     # TODO: Write function
