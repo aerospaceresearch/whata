@@ -1,6 +1,6 @@
 # from whatar.api.input import Waters, Rating
 from flask import Flask, jsonify, request
-from pymongo import MongoClient
+# from pymongo import MongoClient
 import configparser
 import os
 import json
@@ -36,24 +36,20 @@ def coordinates_area(x, y, area):
 
 @app.route("/api/water/<int:x>/<int:y>", methods=["POST", "GET"])
 def api_water(x, y):
-    """Get information for coordinate x, y for zoom level area"""
-
+    """Get information for coordinate x, y and zoom level area"""
     try:
         area = request.form["area"]  # zoom level
     except:
-        # return jsonify({"Error": "No area"})
         area = 100
 
     coordinates = coordinates_area(x, y, area)
     results = []
 
     for coordinate in coordinates:
-        # point = collection.find_one({"coordinates": {"x": x, "y": y}})
         values = mongo.db.whata.find({"coordinates": {"x": coordinate["x"], "y": coordinate["y"]}})
         results.append(values)
 
-    return str(results)
-    # return jsonify(results)
+    return jsonify(results)
 
 
 @app.route("/input/<int:id>", methods=["POST"])
