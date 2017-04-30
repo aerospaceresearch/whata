@@ -5,21 +5,21 @@ services:
         volumes:
             - nodered:/data
         ports:
-            - "1880:1880"
+            - "31880:1880"
     mosquitto:
         image: toke/mosquitto
         volumes:
             - mosquitto_data:/mqtt/data
             - mosquitto_conf:/mqtt/config:ro
         ports:
-            - "1883:1883"
-            - "9001:9001"
+            - "31883:1883"
+            - "39001:9001"
     gost-db:
         image: geodan/gost-db:0.4
         volumes:
             - postgis:/var/lib/pgsql/9.5/data
         ports:
-            - "5432:5432"
+            - "35432:5432"
         environment:
             POSTGRES_DB: gost
             POSTGRES_USER: postgres
@@ -27,7 +27,7 @@ services:
     gost:
         image: geodan/gost:0.4
         ports:
-            - "8080:8080"
+            - "38080:8080"
         depends_on:
             - mosquitto
             - gost-db
