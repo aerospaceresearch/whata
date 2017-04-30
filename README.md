@@ -1,6 +1,6 @@
 whata
 ---------------------------------
-### save the planet - classify water
+### clear water - safe planet
 ![Whata Logo](https://raw.githubusercontent.com/aerospaceresearch/whata/master/doc/logo_whata.small.png "Whata Logo")
 
 ## Welcome
